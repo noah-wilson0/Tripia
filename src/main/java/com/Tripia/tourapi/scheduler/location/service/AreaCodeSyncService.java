@@ -24,46 +24,36 @@ public class AreaCodeSyncService {
 
     @Transactional
     public void syncAreaCodes(){
-        locationResponse result = webClient.get()
+        locationResponse response = fetchAreaCodeItemsFromApi();
+
+        if (response != null && response.getResponse() != null) {
+            List<locationResponse.AreaCodeItem> items =
+                    response.getResponse().getBody().getItems().getItem();
+            areaCodeItemsToDB(items);
+        }
+
+    }
+
+    private locationResponse fetchAreaCodeItemsFromApi() {
+        return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(tourApiProperties.getLocation())
-                        .queryParam("numOfRows",20)
+                        .queryParam("numOfRows", 20)
                         .queryParam("MobileOS", "ETC")
                         .queryParam("MobileApp", "Tripia")
                         .queryParam("_type", "json")
                         .queryParam("serviceKey", tourApiProperties.getKey())
-//                        .queryParam("serviceKey", "1") //WebClientResponseException 예외 처리를 위한 테스트 추후 구현하기
                         .build())
                 .retrieve()
                 .bodyToMono(locationResponse.class)
                 .block();
-
-        if (result != null && result.getResponse() != null) {
-            List<locationResponse.AreaCodeItem> items =
-                    result.getResponse().getBody().getItems().getItem();
-            syncAreaCodesHandler(items);
-        }
-
     }
 
-    private void syncAreaCodesHandler(List<locationResponse.AreaCodeItem> items) {
+    private void areaCodeItemsToDB(List<locationResponse.AreaCodeItem> items) {
         for (locationResponse.AreaCodeItem item : items) {
-            String name = item.getName();
-            String code = item.getCode();
-
-            AreaCode existing = areaCodeService.findByName(name);
-
-            if (existing == null) {
-                saveAreaCode(name, code);
-            } else if (!existing.getCode().equals(code)) {
-                updateAreaCode(existing, code);
-            }
+            saveAreaCode(item.getName(), item.getCode());
         }
 
-    }
-
-    private static void updateAreaCode(AreaCode existing, String code) {
-        existing.changeCode(code);
     }
 
     private void saveAreaCode(String name, String code) {
