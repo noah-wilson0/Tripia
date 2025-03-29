@@ -13,10 +13,10 @@ public class AreaCode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; //대체키(기본키)
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String name; //비즈니스 키
 
     @Column(nullable = false)
     private String code;
