@@ -14,9 +14,11 @@ import lombok.ToString;
 @ToString
 public class AccommodationInfo {
 
-    @Id
-    @Column(name = "content_id")
-    private String contentId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; //대체키(기본키)
+
+    @Column(name = "content_id", nullable = false , unique = true)
+    private String contentId; //비즈니스 키
 
     @Column(nullable = false)
     private String title;
@@ -32,10 +34,10 @@ public class AccommodationInfo {
 
     private String image;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String longitude; //경도
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String latitude;  //위도
 
     private String tel;
