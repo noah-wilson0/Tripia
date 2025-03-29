@@ -18,9 +18,11 @@ class AreaCodeServiceTest {
     @Autowired
     private AreaCodeService areaCodeService;
 
+    private AreaCode savedAreaCode;
+
     @BeforeEach
     void setUp() {
-        AreaCode dummy = new AreaCode(null, "100", "북한");
+        savedAreaCode=areaCodeService.findByName("서울");
 
     }
 
@@ -37,19 +39,19 @@ class AreaCodeServiceTest {
     @Test
     @DisplayName("코드로 AreaCode 조회")
     void findByCode() {
-        AreaCode result = areaCodeService.findByCode("200");
+        AreaCode result = areaCodeService.findByCode(savedAreaCode.getCode());
 
         assertNotNull(result);
-        assertEquals("일본", result.getName());
+        assertEquals("서울", result.getName());
     }
 
     @Test
     @DisplayName("이름으로 AreaCode 조회")
     void findByName() {
-        AreaCode result = areaCodeService.findByName("중국");
+        AreaCode result = areaCodeService.findByName("서울");
 
         assertNotNull(result);
-        assertEquals("300", result.getCode());
+        assertEquals(savedAreaCode.getCode(), result.getCode());
     }
 
     @Test
