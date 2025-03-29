@@ -2,7 +2,6 @@ package com.Tripia.tourapi.scheduler.location.service;
 
 import com.Tripia.tourapi.TourApiProperties;
 import com.Tripia.tourapi.location.entity.AreaCode;
-import com.Tripia.tourapi.location.repository.AreaCodeRepository;
 import com.Tripia.tourapi.location.service.AreaCodeService;
 import com.Tripia.tourapi.scheduler.location.entity.locationResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AreaCodeSyncService {
 
-    private final WebClient tourApiWebClient;
+    private final WebClient webClient;
     private final TourApiProperties tourApiProperties;
     private final AreaCodeService areaCodeService;
 
     @Transactional
     public void syncAreaCodes(){
-        locationResponse result = tourApiWebClient.get()
+        locationResponse result = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(tourApiProperties.getLocation())
                         .queryParam("numOfRows",20)
@@ -33,6 +32,7 @@ public class AreaCodeSyncService {
                         .queryParam("MobileApp", "Tripia")
                         .queryParam("_type", "json")
                         .queryParam("serviceKey", tourApiProperties.getKey())
+//                        .queryParam("serviceKey", "1") //WebClientResponseException 예외 처리를 위한 테스트 추후 구현하기
                         .build())
                 .retrieve()
                 .bodyToMono(locationResponse.class)
