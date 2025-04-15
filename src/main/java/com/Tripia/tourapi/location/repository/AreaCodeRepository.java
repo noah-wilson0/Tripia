@@ -4,8 +4,10 @@ import com.Tripia.tourapi.location.entity.AreaCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AreaCodeRepository extends JpaRepository<AreaCode,Long> {
-    AreaCode findByName(String name);
-    AreaCode findByCode(String code);
+    Optional<AreaCode> findByName(String name);
+    Optional<AreaCode> findByCode(String code);
 }

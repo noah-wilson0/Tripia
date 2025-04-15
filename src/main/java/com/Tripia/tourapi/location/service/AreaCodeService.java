@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,12 +21,11 @@ public class AreaCodeService {
         return areaCodeRepository.save(areaCode);
     }
 
-    public AreaCode findByCode(String code) {
+    public Optional<AreaCode> findByCode(String code) {
         return areaCodeRepository.findByCode(code);
     }
 
-    public AreaCode findByName(String name) {
-
+    public Optional<AreaCode> findByName(String name) {
         return areaCodeRepository.findByName(name);
     }
 

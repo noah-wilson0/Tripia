@@ -24,5 +24,13 @@ public class AreaCode {
     public void changeCode(String newCode) {
         this.code = newCode;
     }
+
+    public AreaCode changeAll(String name, String code) {
+        this.name = name;
+        this.code = code;
+
+        return this;
+    }
+
 }
 

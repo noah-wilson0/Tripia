@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -18,7 +20,7 @@ class AreaCodeServiceTest {
     @Autowired
     private AreaCodeService areaCodeService;
 
-    private AreaCode savedAreaCode;
+    private Optional<AreaCode> savedAreaCode;
 
     @BeforeEach
     void setUp() {
@@ -32,26 +34,25 @@ class AreaCodeServiceTest {
         String name = "일본";
         String code = "200";
         AreaCode excepted = areaCodeService.save(new AreaCode(null, name, code));
-        AreaCode actual = areaCodeService.findByCode(code);
-        Assertions.assertEquals(excepted,actual);
+        Optional<AreaCode> actual = areaCodeService.findByCode(code);
+        Assertions.assertEquals(excepted,actual.get());
     }
 
     @Test
     @DisplayName("코드로 AreaCode 조회")
     void findByCode() {
-        AreaCode result = areaCodeService.findByCode(savedAreaCode.getCode());
+        Optional<AreaCode> result = areaCodeService.findByCode(savedAreaCode.get().getCode());
 
         assertNotNull(result);
-        assertEquals("서울", result.getName());
+        assertEquals("서울", result.get().getName());
     }
 
     @Test
     @DisplayName("이름으로 AreaCode 조회")
     void findByName() {
-        AreaCode result = areaCodeService.findByName("서울");
-
+        Optional<AreaCode> result = areaCodeService.findByName("서울");
         assertNotNull(result);
-        assertEquals(savedAreaCode.getCode(), result.getCode());
+        assertEquals(savedAreaCode.get().getCode(), result.get().getCode());
     }
 
     @Test
