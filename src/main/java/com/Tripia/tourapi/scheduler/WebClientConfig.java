@@ -10,6 +10,11 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+/**
+ * AreaCode 256k
+ * TourSpot 30MB
+ * Accommodation 10MB
+ */
 @Configuration
 @RequiredArgsConstructor
 public class WebClientConfig {
@@ -27,7 +32,7 @@ public class WebClientConfig {
                         .builder()
                         .codecs(clientCodecConfigurer -> clientCodecConfigurer
                                 .defaultCodecs()
-                                .maxInMemorySize(10*1024*1024))
+                                .maxInMemorySize(30*1024*1024))
                         .build())
                 .build();
     }
