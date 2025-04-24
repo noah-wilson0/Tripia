@@ -33,15 +33,15 @@ class AreaCodeServiceTest {
     void save() {
         String name = "일본";
         String code = "200";
-        AreaCode excepted = areaCodeService.save(new AreaCode(null, name, code));
-        Optional<AreaCode> actual = areaCodeService.findByCode(code);
+        AreaCode excepted = areaCodeService.save(new AreaCode(null,null, name, code));
+        Optional<AreaCode> actual = areaCodeService.findByAreaCode(code);
         Assertions.assertEquals(excepted,actual.get());
     }
 
     @Test
     @DisplayName("코드로 AreaCode 조회")
-    void findByCode() {
-        Optional<AreaCode> result = areaCodeService.findByCode(savedAreaCode.get().getCode());
+    void findByAreaCode() {
+        Optional<AreaCode> result = areaCodeService.findByAreaCode(savedAreaCode.get().getAreaCode());
 
         assertNotNull(result);
         assertEquals("서울", result.get().getName());
@@ -52,7 +52,7 @@ class AreaCodeServiceTest {
     void findByName() {
         Optional<AreaCode> result = areaCodeService.findByName("서울");
         assertNotNull(result);
-        assertEquals(savedAreaCode.get().getCode(), result.get().getCode());
+        assertEquals(savedAreaCode.get().getAreaCode(), result.get().getAreaCode());
     }
 
     @Test

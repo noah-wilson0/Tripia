@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @Slf4j
 @SpringBootTest
-@Transactional
+//@Transactional
 class AreaCodeSyncServiceTest {
     @Autowired
     private AreaCodeSyncService areaCodeSyncService;

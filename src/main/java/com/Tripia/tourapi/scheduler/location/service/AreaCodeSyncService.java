@@ -29,7 +29,7 @@ public class AreaCodeSyncService {
         locationResponse response = fetchAreaCodeItemsFromApi();
 
         if (response != null && response.getResponse() != null) {
-            List<locationResponse.AreaCodeItem> items =
+            List<locationResponse.CodeItem> items =
                     response.getResponse().getBody().getItems().getItem();
             areaCodeItemsToDB(items);
         }
@@ -51,28 +51,30 @@ public class AreaCodeSyncService {
                 .block();
     }
 
-    private void areaCodeItemsToDB(List<locationResponse.AreaCodeItem> items) {
-        for (locationResponse.AreaCodeItem item : items) {
+    private void areaCodeItemsToDB(List<locationResponse.CodeItem> items) {
+        for (locationResponse.CodeItem item : items) {
             Optional<AreaCode> existing = areaCodeService.findByName(item.getName());
-
             if (existing.isPresent()){
                 AreaCode savedAreaCode = existing.get();
                 if (!isEquals(item, savedAreaCode)) {
-                    savedAreaCode.changeAll(savedAreaCode.getName(), savedAreaCode.getCode());
-                }else{
-                    saveAreaCode(item.getName(), item.getCode());
+                    log.info("변경");
+                    savedAreaCode.changeAll(savedAreaCode.getName(), savedAreaCode.getAreaCode());
                 }
+            }else{
+                log.info("저장");
+                saveAreaCode(item.getName(), item.getCode());
             }
+
         }
 
     }
 
-    private boolean isEquals(locationResponse.AreaCodeItem areaCode, AreaCode savedAreaCode) {
-        return Objects.equals(areaCode.getCode(), savedAreaCode.getCode())
+    private boolean isEquals(locationResponse.CodeItem areaCode, AreaCode savedAreaCode) {
+        return Objects.equals(areaCode.getCode(), savedAreaCode.getAreaCode())
                 && Objects.equals(areaCode.getName(), savedAreaCode.getName());
     }
 
     private void saveAreaCode(String name, String code) {
-        areaCodeService.save(new AreaCode(null, name, code));
+        areaCodeService.save(new AreaCode(null, null,name, code));
     }
 }

@@ -21,8 +21,8 @@ public class AreaCodeService {
         return areaCodeRepository.save(areaCode);
     }
 
-    public Optional<AreaCode> findByCode(String code) {
-        return areaCodeRepository.findByCode(code);
+    public Optional<AreaCode> findByAreaCode(String areaCode) {
+        return areaCodeRepository.findByAreaCode(areaCode);
     }
 
     public Optional<AreaCode> findByName(String name) {

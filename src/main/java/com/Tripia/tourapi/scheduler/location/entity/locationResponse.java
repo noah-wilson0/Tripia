@@ -23,11 +23,11 @@ public class locationResponse {
 
     @Getter @NoArgsConstructor
     public static class Items {
-        private List<AreaCodeItem> item;
+        private List<CodeItem> item;
     }
 
     @Getter @NoArgsConstructor
-    public static class AreaCodeItem {
+    public static class CodeItem {
         private String code;
         private String name;
     }

@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface AreaCodeRepository extends JpaRepository<AreaCode,Long> {
     Optional<AreaCode> findByName(String name);
-    Optional<AreaCode> findByCode(String code);
+    Optional<AreaCode> findByAreaCode(String areaCode);
 }
