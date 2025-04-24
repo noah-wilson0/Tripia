@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AccommodationInfo {
+public class Accommodation {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //대체키(기본키)
@@ -77,7 +77,7 @@ public class AccommodationInfo {
         this.tel = tel;
     }
 
-    public AccommodationInfo changeAll(
+    public Accommodation changeAll(
             String contentId,
             String title,
             String code,
