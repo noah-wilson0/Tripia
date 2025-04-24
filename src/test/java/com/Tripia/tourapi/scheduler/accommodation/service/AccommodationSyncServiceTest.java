@@ -1,10 +1,9 @@
 package com.Tripia.tourapi.scheduler.accommodation.service;
 
-import com.Tripia.tourapi.accommodation.entity.AccommodationInfo;
+import com.Tripia.tourapi.accommodation.entity.Accommodation;
 import com.Tripia.tourapi.accommodation.service.AccommodationService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @Transactional
@@ -40,17 +38,17 @@ class AccommodationSyncServiceTest {
         String updateTitle="업데이트 확인용";
 
         // 1. 테스트용 데이터 저장
-        AccommodationInfo newAccommodation = new AccommodationInfo(
+        Accommodation newAccommodation = new Accommodation(
                 null, "tempContentId", "01", "테스트숙소",
                 "서울특별시 어딘가", null, null,
                 "126.123", "37.123", "010-1234-5678"
         );
-        AccommodationInfo savedAccommodation = accommodationService.save(newAccommodation);
+        Accommodation savedAccommodation = accommodationService.save(newAccommodation);
 
         savedAccommodation.changeTitle(updateTitle);
         em.flush();
         em.clear();
-        AccommodationInfo merged = accommodationService.findByTitle(updateTitle);
+        Accommodation merged = accommodationService.findByTitle(updateTitle);
         log.info("업데이트된 숙소 이름: {}", merged.getTitle());
         Assertions.assertThat(merged.getTitle()).isEqualTo(updateTitle);
 

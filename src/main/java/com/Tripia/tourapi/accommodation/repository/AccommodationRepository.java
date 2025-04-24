@@ -1,15 +1,14 @@
 package com.Tripia.tourapi.accommodation.repository;
 
-import com.Tripia.tourapi.accommodation.entity.AccommodationInfo;
+import com.Tripia.tourapi.accommodation.entity.Accommodation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.plaf.PanelUI;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccommodationRepository extends JpaRepository<AccommodationInfo, Long> {
+public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
-    AccommodationInfo findByTitle(String title);
-    List<AccommodationInfo> findAllByContentIdIn(List<String> contentIds);
-    Optional<AccommodationInfo> findByContentId(String contentId);
+    Accommodation findByTitle(String title);
+    List<Accommodation> findAllByContentIdIn(List<String> contentIds);
+    Optional<Accommodation> findByContentId(String contentId);
 }

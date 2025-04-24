@@ -2,7 +2,7 @@ package com.Tripia.tourapi.scheduler.accommodation.service;
 
 
 import com.Tripia.tourapi.TourApiProperties;
-import com.Tripia.tourapi.accommodation.entity.AccommodationInfo;
+import com.Tripia.tourapi.accommodation.entity.Accommodation;
 import com.Tripia.tourapi.accommodation.service.AccommodationService;
 import com.Tripia.tourapi.scheduler.accommodation.entity.AccommodationResponse;
 import lombok.RequiredArgsConstructor;
@@ -58,9 +58,9 @@ public class AccommodationSyncService {
 
 
         for (AccommodationResponse.AccommodationItem accommodationItem : accommodationItems) {
-            Optional<AccommodationInfo> existing = accommodationService.findByContentId(accommodationItem.getContentid());
+            Optional<Accommodation> existing = accommodationService.findByContentId(accommodationItem.getContentid());
             if (existing.isPresent()) {
-                AccommodationInfo savedAccommodation  = existing.get();
+                Accommodation savedAccommodation  = existing.get();
                 if (!isEquals(accommodationItem, savedAccommodation)) {
                     savedAccommodation.changeAll(
                         accommodationItem.getContentid(),
@@ -75,7 +75,7 @@ public class AccommodationSyncService {
                     );
                 }
             } else {
-                accommodationService.save(new AccommodationInfo(
+                accommodationService.save(new Accommodation(
                         null,
                         accommodationItem.getContentid(),
                         accommodationItem.getTitle(),
@@ -92,7 +92,7 @@ public class AccommodationSyncService {
         }
     }
 
-    private static boolean isEquals(AccommodationResponse.AccommodationItem item, AccommodationInfo saved) {
+    private static boolean isEquals(AccommodationResponse.AccommodationItem item, Accommodation saved) {
         return Objects.equals(saved.getContentId(),item.getContentid())
                 && Objects.equals(saved.getTitle(), item.getTitle())
                 && Objects.equals(saved.getCode(), item.getAreacode())
