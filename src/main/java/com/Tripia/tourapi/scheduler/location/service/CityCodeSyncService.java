@@ -31,6 +31,7 @@ public class CityCodeSyncService {
     @Transactional
     public void syncAreaCodes(){
         List<AreaCode> areaCodes = areaCodeService.findAll();
+
         for (AreaCode areaCode : areaCodes) {
 
             locationResponse response = fetchAreaCodeItemsFromApi(areaCode.getAreaCode());
@@ -38,7 +39,7 @@ public class CityCodeSyncService {
             if (response != null && response.getResponse() != null) {
                 List<locationResponse.CodeItem> items =
                         response.getResponse().getBody().getItems().getItem();
-                cityCodeItemsToDB(items);
+                cityCodeItemsToDB(items, areaCode.getAreaCode());
             }
         }
 
@@ -49,6 +50,7 @@ public class CityCodeSyncService {
                 .uri(uriBuilder -> uriBuilder
                         .path(tourApiProperties.getLocation())
                         .queryParam("numOfRows", 50)
+                        .queryParam("pageNo",1)
                         .queryParam("MobileOS", "ETC")
                         .queryParam("areaCode",areaCode)
                         .queryParam("MobileApp", "Tripia")
@@ -60,38 +62,37 @@ public class CityCodeSyncService {
                 .block();
     }
 
-    private void cityCodeItemsToDB(List<locationResponse.CodeItem> items) {
+    private void cityCodeItemsToDB(List<locationResponse.CodeItem> items, String areaCode) {
         for (locationResponse.CodeItem item : items) {
-            Optional<CityCode> existing = cityCodeService.findByName(item.getName());
-            if (existing.isPresent()){
-                CityCode savedCityCode = existing.get();
+            Optional<AreaCode> findAreaCode = areaCodeService.findByAreaCode(areaCode);
+            Optional<CityCode> findCityCode = cityCodeService.findByCityCodeAndAreaCodeId(item.getCode(), findAreaCode.get().getAreaCodeId());
+            if (findCityCode.isPresent()){
+                CityCode savedCityCode = findCityCode.get();
                 if (!isEquals(item, savedCityCode)) {
                     savedCityCode.changeAll(savedCityCode.getName(), savedCityCode.getCityCode());
                 }
             }else{
-                saveCityCode(item.getName(), item.getCode());
+                saveCityCode(item.getName(), item.getCode(), areaCode);
             }
 
         }
 
     }
 
-    private boolean isEquals(locationResponse.CodeItem areaCode, CityCode savedCityCode) {
-        return Objects.equals(areaCode.getCode(), savedCityCode.getCityCode())
-                && Objects.equals(areaCode.getName(), savedCityCode.getName());
+    private boolean isEquals(locationResponse.CodeItem ciTyCode, CityCode savedCityCode) {
+        return Objects.equals(ciTyCode.getCode(), savedCityCode.getCityCode())
+                && Objects.equals(ciTyCode.getName(), savedCityCode.getName());
     }
 
-    private void saveCityCode(String name, String code) {
-        Optional<AreaCode> findAreaCode = areaCodeService.findByAreaCode(code);
+    private void saveCityCode(String name, String cityCode, String areaCode) {
+        Optional<AreaCode> findAreaCode = areaCodeService.findByAreaCode(areaCode);
 
         if (findAreaCode.isEmpty()) {
-            log.warn("AreaCode가 존재하지 않아 CityCode 저장을 생략함: name={}, code={}", name, code);
+            log.warn("AreaCode가 존재하지 않아 CityCode 저장을 생략함: name={}, code={}", name, cityCode);
             return;
         }
 
-        CityCode cityCode = CityCode.createCityCode(code, name, findAreaCode.get());
-
-        cityCodeService.save(cityCode);
+        cityCodeService.save(CityCode.createCityCode(cityCode, name, findAreaCode.get()));
     }
 
 }

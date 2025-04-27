@@ -61,7 +61,7 @@ public class AreaCodeSyncService {
                     savedAreaCode.changeAll(savedAreaCode.getName(), savedAreaCode.getAreaCode());
                 }
             }else{
-                log.info("저장");
+                log.info("저장{}",item.toString());
                 saveAreaCode(item.getName(), item.getCode());
             }
 

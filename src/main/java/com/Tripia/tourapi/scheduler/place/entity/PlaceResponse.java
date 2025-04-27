@@ -1,4 +1,4 @@
-package com.Tripia.tourapi.scheduler.touristspot.entity;
+package com.Tripia.tourapi.scheduler.place.entity;
 
 
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.List;
 
 @Getter
-public class TourSpotResponse {
+public class PlaceResponse {
 
     private Response response;
     @Getter
@@ -22,12 +22,12 @@ public class TourSpotResponse {
 
     @Getter
     public static class Items{
-        private List<TourSpotItem> item;
+        private List<PlaceItem> item;
     }
 
     @Getter
     @ToString
-    public static class TourSpotItem{
+    public static class PlaceItem {
         private String addr1;
         private String addr2;
         private String areacode;
@@ -35,8 +35,10 @@ public class TourSpotResponse {
         private String firstimage;
         private String mapx; //경도
         private String mapy; //위도
+        private String sigungucode;
         private String tel;
         private String title;
+        private String contenttypeid;
 
         public void changeTel(String tel) {
             this.tel = tel;

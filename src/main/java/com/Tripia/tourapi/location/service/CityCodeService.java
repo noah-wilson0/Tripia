@@ -1,10 +1,12 @@
 package com.Tripia.tourapi.location.service;
 
+import com.Tripia.tourapi.location.entity.AreaCode;
 import com.Tripia.tourapi.location.entity.CityCode;
 import com.Tripia.tourapi.location.repository.CityCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +23,16 @@ public class CityCodeService {
     }
     public Optional<CityCode> findByName(String name) {
         return cityCodeRepository.findByName(name);
+    }
+    public Optional<CityCode> findByCityCodeAndAreaCodeId(String cityCode, Long areaCodeId) {
+        return cityCodeRepository.findByCityCodeAndAreaCodeId(cityCode, areaCodeId);
+    }
+
+    public Optional<AreaCode> findAreaCodeByCityCodeAndAreaCodeId(String cityCode, Long areaCodeId) {
+        return cityCodeRepository.findAreaCodeByCityCodeAndAreaCodeId(cityCode, areaCodeId);
+    }
+
+    public List<CityCode> findAll() {
+        return cityCodeRepository.findAll();
     }
 }

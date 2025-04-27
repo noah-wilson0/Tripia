@@ -1,20 +1,25 @@
-package com.Tripia.tourapi.accommodation.entity;
+package com.Tripia.tourapi.place.entity;
 
+import com.Tripia.tourapi.accommodation.entity.Accommodation;
+import com.Tripia.tourapi.location.entity.CityCode;
+import com.Tripia.utils.PlaceType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+/**
+ * place repo service sync 구현하기
+ */
 @Entity
-@Table(name = "accommodation_info")
-@Getter
+@Table(name = "place")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter
 @ToString
-public class Accommodation {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Place {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "place_id")
     private Long id; //대체키(기본키)
 
     @Column(name = "content_id", nullable = false , unique = true)
@@ -23,9 +28,11 @@ public class Accommodation {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "city_code_id", nullable = false)
+    private CityCode cityCode;
 
+    private String placeType;
 
     @Column(nullable = false)
     private String addr1;
@@ -42,6 +49,14 @@ public class Accommodation {
 
     private String tel;
 
+    @Column(name = "average_rating", nullable = false)
+    @Builder.Default
+    private Double averageRating=0.0;
+
+    @Column(name = "like_count", nullable = false)
+    @Builder.Default
+    private Long likeCount=0L;
+
     public void changeContentId(String contentId) {
         this.contentId = contentId;
     }
@@ -49,8 +64,8 @@ public class Accommodation {
     public void changeTitle(String title) {
         this.title = title;
     }
-    public void changeCode(String code) {
-        this.code = code;
+    public void changeCityCode(CityCode cityCode) {
+        this.cityCode = cityCode;
     }
 
     public void changeAddr1(String addr1) {
@@ -77,10 +92,11 @@ public class Accommodation {
         this.tel = tel;
     }
 
-    public Accommodation changeAll(
+    public Place changeExceptAverageRatingAndLikeCount(
             String contentId,
             String title,
-            String code,
+            CityCode cityCode,
+            String placeType,
             String addr1,
             String addr2,
             String image,
@@ -90,7 +106,8 @@ public class Accommodation {
     ) {
         this.contentId = contentId;
         this.title = title;
-        this.code = code;
+        this.cityCode = cityCode;
+        this.placeType=placeType;
         this.addr1 = addr1;
         this.addr2 = addr2;
         this.image = image;
@@ -99,5 +116,7 @@ public class Accommodation {
         this.tel = tel;
         return this;
     }
+
+
 
 }

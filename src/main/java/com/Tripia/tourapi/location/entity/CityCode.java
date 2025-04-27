@@ -1,10 +1,14 @@
 package com.Tripia.tourapi.location.entity;
 
+import com.Tripia.tourapi.place.entity.Place;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "city_code")
@@ -27,6 +31,10 @@ public class CityCode {
 
     @Column(name = "city_code",nullable = false)
     private String cityCode;
+
+    @OneToMany(mappedBy = "cityCode")
+    @ToString.Exclude
+    private List<Place> places=new ArrayList<Place>();
 
     @Column(nullable = false,unique = true)
     private String name;
