@@ -1,6 +1,6 @@
 package com.Tripia.tourapi.place.entity;
 
-import com.Tripia.tourapi.accommodation.entity.Accommodation;
+
 import com.Tripia.tourapi.location.entity.CityCode;
 import com.Tripia.utils.PlaceType;
 import jakarta.persistence.*;

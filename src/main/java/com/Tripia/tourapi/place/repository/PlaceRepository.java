@@ -1,6 +1,6 @@
 package com.Tripia.tourapi.place.repository;
 
-import com.Tripia.tourapi.accommodation.entity.Accommodation;
+
 import com.Tripia.tourapi.place.entity.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
 
