@@ -6,9 +6,7 @@ import com.Tripia.utils.PlaceType;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * place repo service sync 구현하기
- */
+
 @Entity
 @Table(name = "place")
 @NoArgsConstructor
