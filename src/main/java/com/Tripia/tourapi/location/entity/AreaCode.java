@@ -19,7 +19,7 @@ public class AreaCode {
     @Column(name = "area_code_id")
     private Long areaCodeId; //대체키(기본키)
 
-    @OneToMany(mappedBy = "areaCode")
+    @OneToMany(mappedBy = "areaCode", fetch = FetchType.LAZY)
     private List<CityCode> cityCodes=new ArrayList<CityCode>();
 
     @Column(nullable = false, unique = true)

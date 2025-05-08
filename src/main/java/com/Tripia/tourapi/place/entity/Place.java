@@ -26,7 +26,7 @@ public class Place {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_code_id", nullable = false)
     private CityCode cityCode;
 

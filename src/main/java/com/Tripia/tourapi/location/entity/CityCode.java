@@ -32,7 +32,7 @@ public class CityCode {
     @Column(name = "city_code",nullable = false)
     private String cityCode;
 
-    @OneToMany(mappedBy = "cityCode")
+    @OneToMany(mappedBy = "cityCode",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Place> places=new ArrayList<Place>();
 
