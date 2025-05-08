@@ -1,4 +1,4 @@
-package com.Tripia.tourapi;
+package com.Tripia.config.properties;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,6 +1,6 @@
-package com.Tripia.tourapi.scheduler;
+package com.Tripia.config;
 
-import com.Tripia.tourapi.TourApiProperties;
+import com.Tripia.config.properties.TourApiProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
  */
 @Configuration
 @RequiredArgsConstructor
-public class WebClientConfig {
+public class TourApiWebClientConfig {
     private final TourApiProperties tourApiProperties;
     @Bean
     public WebClient tourApiWebClient() {

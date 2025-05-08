@@ -1,8 +1,6 @@
 package com.Tripia.tourapi.scheduler.location.service;
 
-import com.Tripia.tourapi.TourApiProperties;
 import com.Tripia.tourapi.location.entity.AreaCode;
-import com.Tripia.tourapi.location.repository.AreaCodeRepository;
 
 
 import com.Tripia.tourapi.location.service.AreaCodeService;

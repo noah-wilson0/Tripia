@@ -1,6 +1,6 @@
 package com.Tripia.tourapi.scheduler.place.service;
 
-import com.Tripia.tourapi.TourApiProperties;
+import com.Tripia.config.properties.TourApiProperties;
 import com.Tripia.tourapi.location.entity.AreaCode;
 import com.Tripia.tourapi.location.entity.CityCode;
 import com.Tripia.tourapi.location.service.AreaCodeService;
@@ -11,6 +11,7 @@ import com.Tripia.tourapi.scheduler.place.entity.PlaceResponse;
 import com.Tripia.utils.PlaceType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,7 +21,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,14 +29,25 @@ import static io.micrometer.common.util.StringUtils.isEmpty;
 @Slf4j
 @Transactional(readOnly = true)
 @Service
-@RequiredArgsConstructor
+
 public class PlaceSyncService {
+
 
     private final WebClient webClient;
     private final TourApiProperties tourApiProperties;
     private final AreaCodeService areaCodeService;
     private final CityCodeService cityCodeService;
     private final PlaceService placeService;
+
+    public PlaceSyncService(@Qualifier("tourApiWebClient")WebClient webClient, TourApiProperties tourApiProperties, AreaCodeService areaCodeService,
+                            CityCodeService cityCodeService, PlaceService placeService) {
+        this.webClient = webClient;
+        this.tourApiProperties = tourApiProperties;
+        this.areaCodeService = areaCodeService;
+        this.cityCodeService = cityCodeService;
+        this.placeService = placeService;
+    }
+
 
     @Transactional
     public void SyncPlace() {

@@ -1,11 +1,12 @@
 package com.Tripia.tourapi.scheduler.location.service;
 
-import com.Tripia.tourapi.TourApiProperties;
+import com.Tripia.config.properties.TourApiProperties;
 import com.Tripia.tourapi.location.entity.AreaCode;
 import com.Tripia.tourapi.location.service.AreaCodeService;
 import com.Tripia.tourapi.scheduler.location.entity.locationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,12 +18,19 @@ import java.util.Optional;
 @Slf4j
 @Transactional(readOnly = true)
 @Service
-@RequiredArgsConstructor
+
 public class AreaCodeSyncService {
+
 
     private final WebClient webClient;
     private final TourApiProperties tourApiProperties;
     private final AreaCodeService areaCodeService;
+
+    public AreaCodeSyncService(@Qualifier("tourApiWebClient")WebClient webClient, TourApiProperties tourApiProperties, AreaCodeService areaCodeService) {
+        this.webClient = webClient;
+        this.tourApiProperties = tourApiProperties;
+        this.areaCodeService = areaCodeService;
+    }
 
     @Transactional
     public void syncAreaCodes(){
