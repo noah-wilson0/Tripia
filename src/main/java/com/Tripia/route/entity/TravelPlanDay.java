@@ -1,20 +1,21 @@
 package com.Tripia.route.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "travel_plan_day")
+@Table(name = "travel_plan_day",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"travel_plan_id", "sequence"})
+})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @ToString
 public class TravelPlanDay {
 

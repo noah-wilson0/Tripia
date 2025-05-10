@@ -2,6 +2,7 @@ package com.Tripia.route.car.service;
 
 import com.Tripia.route.car.dto.KaKaoMobilityRouteDto;
 import com.Tripia.route.dto.RouteDto;
+import com.Tripia.route.service.TravelPlanRouteService;
 import com.Tripia.tourapi.place.entity.Place;
 import com.Tripia.tourapi.place.service.PlaceService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,11 @@ class KaKaoMobilityServiceTest {
     private KaKaoMobilityService kaKaoMobilityService;
     Long originId=187264L;
     Long destinationId=187265L;
+    @Autowired
+    private TravelPlanRouteService travelPlanRouteService;
 
 
-    @DisplayName("RouteDto 반환 확인")
+    @DisplayName("kakao mobility api 요청 확인")
     @Test
     void requestRouteWithKaKaoCoordinates() {
         Place origin = placeService.findById(originId).orElseThrow();
@@ -45,4 +48,6 @@ class KaKaoMobilityServiceTest {
                 .build();
         log.info(routeDto.toString());
     }
+
+
 }

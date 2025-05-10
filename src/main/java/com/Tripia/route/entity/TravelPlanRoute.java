@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "travel_plan_route ")
+@Table(name = "travel_plan_route ",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"travel_plan_day_id", "sequence"})
+        })
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,9 @@ public class TravelPlanRoute {
     @Column(nullable = false)
     private int sequence;
 
+    @Column(name = "path_type ",nullable = false)
+    private int pathType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_place_id",nullable = false)
     private TravelPlanPlace fromPlace;
@@ -34,10 +40,10 @@ public class TravelPlanRoute {
     private TravelPlanPlace toPlace;
 
     @Column(nullable = false)
-    private Long distance;
+    private int distance;
 
     @Column(nullable = false)
-    private Long duration;
+    private int duration;
 
 
 }

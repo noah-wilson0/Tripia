@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * TODO: 프론트에서 어떤 값을 받아야 될까?
+ */
 @RestController
 @RequestMapping("/api/kakaomap")
 @RequiredArgsConstructor
